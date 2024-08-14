@@ -1,6 +1,6 @@
 {
-  "name": "heroku-deploy",
-  "version": "3.13.15",
+  "name": "heroku-deploy-action",
+  "version": "1.0.0",
   "description": "A simple github action that dynamically deploys an app to heroku",
   "main": "index.js",
   "scripts": {
@@ -11,18 +11,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AkhileshNS/heroku-deploy.git"
+    "url": "git+https://github.com/5hojib/heroku-deploy-action.git"
   },
   "keywords": [
     "heroku",
     "github",
     "github-actions"
   ],
-  "author": "AkhileshNS",
+  "author": "5hojib",
   "bugs": {
-    "url": "https://github.com/AkhileshNS/heroku-deploy/issues"
+    "url": "https://github.com/5hojib/heroku-deploy-action/issues"
   },
-  "homepage": "https://github.com/AkhileshNS/heroku-deploy#readme",
+  "homepage": "https://github.com/5hojib/heroku-deploy-action#readme",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.10.0",
