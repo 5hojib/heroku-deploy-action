@@ -1,10 +1,10 @@
 # Heroku Deploy
 
-[![Join the chat at https://gitter.im/5hojib-heroku-deploy/community](https://badges.gitter.im/5hojib-heroku-deploy/community.svg)](https://gitter.im/5hojib-heroku-deploy/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/5hojib-heroku-deploy-action/community](https://badges.gitter.im/5hojib-heroku-deploy-action/community.svg)](https://gitter.im/5hojib-heroku-deploy-action/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-![GitHub issues](https://img.shields.io/github/issues/5hojib/heroku-deploy.svg)
-![GitHub](https://img.shields.io/github/license/5hojib/heroku-deploy.svg)
-![Tests](https://github.com/5hojib/heroku-deploy/workflows/Tests/badge.svg)
+![GitHub issues](https://img.shields.io/github/issues/5hojib/heroku-deploy-action.svg)
+![GitHub](https://img.shields.io/github/license/5hojib/heroku-deploy-action.svg)
+![Tests](https://github.com/5hojib/heroku-deploy-action/workflows/Tests/badge.svg)
 
 This is a very simple GitHub action that allows you to deploy to Heroku. The action works by running the following commands in shell via NodeJS:-
 
@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -125,7 +125,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -152,7 +152,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -191,7 +191,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -218,7 +218,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -247,7 +247,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -276,7 +276,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -307,7 +307,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -336,7 +336,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -367,7 +367,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -397,7 +397,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -427,7 +427,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -460,7 +460,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -495,7 +495,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -542,7 +542,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
@@ -571,7 +571,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15
+      - uses: 5hojib/heroku-deploy-action@v2
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "YOUR APP's NAME"
@@ -598,7 +598,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: 5hojib/heroku-deploy@v3.13.15 # This is the action
+      - uses: 5hojib/heroku-deploy-action@v2 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ""
@@ -609,7 +609,7 @@ jobs:
 
 ## Important Notes
 
-- You can check this repo's [_.github/workflows/main.yml_](https://github.com/5hojib/heroku-deploy/blob/master/.github/workflows/main.yml) for example use cases of the action in use. Additionally the APIs for these use cases can be found in the [_tests_](https://github.com/5hojib/heroku-deploy/tree/master/tests) folder of the repo
+- You can check this repo's [_.github/workflows/main.yml_](https://github.com/5hojib/heroku-deploy-action/blob/master/.github/workflows/main.yml) for example use cases of the action in use. Additionally the APIs for these use cases can be found in the [_tests_](https://github.com/5hojib/heroku-deploy-action/tree/master/tests) folder of the repo
 
 - You can find the secrets tab in your project's settings
 
@@ -625,4 +625,4 @@ jobs:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/5hojib/heroku-deploy/blob/master/LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/5hojib/heroku-deploy-action/blob/master/LICENSE) file for details
