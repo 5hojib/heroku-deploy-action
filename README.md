@@ -108,3 +108,11 @@ jobs:
   - **`region`**: 
     - *Description*: Heroku region for app deployment.
     - *Example*: `"us"`, `"eu"`
+  - **`stack`**:
+    - *Description*: The Heroku stack to use for this app.
+    - *Example*: `"heroku-20"`
+
+  - **`team`**:
+    - *Description*: The Heroku team to assign this app to (for Heroku Enterprise users).
+    - *Example*: `"your-team-name"`
+
