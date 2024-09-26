@@ -1,7 +1,7 @@
 autopep8==1.4.4
 Click==7.0
 Flask==2.2.5
-gunicorn==19.10.0
+gunicorn==22.0.0
 itsdangerous==1.1.0
 Jinja2==2.10.3
 MarkupSafe==1.1.1
