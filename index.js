@@ -1,6 +1,6 @@
 const p = require("phin");
 const core = require("@actions/core");
-const { execSync } = require("child_process");
+const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
@@ -63,7 +63,30 @@ const createProcfile = ({ procfile, appdir }) => {
   }
 };
 
-const deploy = ({
+// Function to run commands with real-time log streaming
+const runCommand = (command, options = {}) => {
+  return new Promise((resolve, reject) => {
+    const process = spawn(command, { shell: true, ...options });
+
+    process.stdout.on("data", (data) => {
+      console.log(data.toString());
+    });
+
+    process.stderr.on("data", (data) => {
+      console.error(data.toString());
+    });
+
+    process.on("close", (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`Command failed with exit code ${code}`));
+      }
+    });
+  });
+};
+
+const deploy = async ({
   dontuseforce,
   app_name,
   branch,
@@ -73,14 +96,13 @@ const deploy = ({
   appdir,
 }) => {
   const force = !dontuseforce ? "--force" : "";
-  let output = "";
   if (usedocker) {
-    output = execSync(`heroku stack:set container --app ${app_name}`);
-    output += execSync(
+    await runCommand(`heroku stack:set container --app ${app_name}`);
+    await runCommand(
       `heroku container:push ${dockerHerokuProcessType} --app ${app_name} ${dockerBuildArgs}`,
       appdir ? { cwd: appdir } : null
     );
-    output += execSync(
+    await runCommand(
       `heroku container:release ${dockerHerokuProcessType} --app ${app_name}`,
       appdir ? { cwd: appdir } : null
     );
@@ -92,22 +114,22 @@ const deploy = ({
       .trim();
 
     if (remote_branch === "master") {
-      output += execSync("heroku plugins:install heroku-repo");
-      output += execSync("heroku repo:reset -a " + app_name);
+      await runCommand("heroku plugins:install heroku-repo");
+      await runCommand("heroku repo:reset -a " + app_name);
     }
 
     if (appdir === "") {
-      output += execSync(`git push heroku ${branch}:refs/heads/main ${force}`, {
+      await runCommand(`git push heroku ${branch}:refs/heads/main ${force}`, {
         maxBuffer: 104857600,
       });
     } else {
-      output += execSync(
+      await runCommand(
         `git push ${force} heroku \`git subtree split --prefix=${appdir} ${branch}\`:refs/heads/main`,
         { maxBuffer: 104857600 }
       );
     }
   }
-  core.setOutput('output', output);
+  core.setOutput('output', 'Deployment complete.');
 };
 
 const healthcheckFailed = ({
@@ -184,7 +206,6 @@ if (heroku.dockerBuildArgs) {
     if (heroku.justlogin) {
       execSync(createCatFile(heroku));
       console.log("Created and wrote to ~/.netrc");
-
       return;
     }
 
@@ -199,12 +220,10 @@ if (heroku.dockerBuildArgs) {
 
     // Check if using Docker
     if (!heroku.usedocker) {
-      // Check if Repo clone is shallow
       const isShallow = execSync(
         "git rev-parse --is-shallow-repository"
       ).toString();
 
-      // If the Repo clone is shallow, make it unshallow
       if (isShallow === "true\n") {
         execSync("git fetch --prune --unshallow");
       }
@@ -216,7 +235,7 @@ if (heroku.dockerBuildArgs) {
     createProcfile(heroku);
 
     if (heroku.usedocker) {
-      execSync("heroku container:login");
+      await runCommand("heroku container:login");
     }
     console.log("Successfully logged into heroku");
 
@@ -224,55 +243,31 @@ if (heroku.dockerBuildArgs) {
     addConfig(heroku);
 
     try {
-      deploy({ ...heroku, dontuseforce: true });
+      await deploy({ ...heroku, dontuseforce: true });
     } catch (err) {
       console.error(`
             Unable to push branch because the branch is behind the deployed branch. Using --force to deploy branch. 
-            (If you want to avoid this, set dontuseforce to 1 in with: of .github/workflows/action.yml. 
-            Specifically, the error was: ${err}
-        `);
-
-      deploy(heroku);
+            (If you want to avoid this in the future, disable force pushing by setting the dontuseforce option).
+            `);
+      await deploy(heroku);
     }
 
     if (heroku.healthcheck) {
-      if (typeof heroku.delay === "number" && heroku.delay !== NaN) {
-        await sleep(heroku.delay * 1000);
-      }
-
+      await sleep(heroku.delay);
+      let res;
       try {
-        const res = await p(heroku.healthcheck);
-        if (res.statusCode !== 200) {
-          throw new Error(
-            "Status code of network request is not 200: Status code - " +
-              res.statusCode
-          );
-        }
-        if (heroku.checkstring && heroku.checkstring !== res.body.toString()) {
-          throw new Error("Failed to match the checkstring");
-        }
-        console.log(res.body.toString());
+        res = await p({ url: heroku.healthcheck });
       } catch (err) {
-        console.log(err.message);
-        healthcheckFailed(heroku);
+        return healthcheckFailed(heroku);
+      }
+      if (
+        res.statusCode != 200 ||
+        (heroku.checkstring && !res.body.includes(heroku.checkstring))
+      ) {
+        return healthcheckFailed(heroku);
       }
     }
-
-    core.setOutput(
-      "status",
-      "Successfully deployed heroku app from branch " + heroku.branch
-    );
-  } catch (err) {
-    if (
-      heroku.dontautocreate &&
-      err.toString().includes("Couldn't find that app")
-    ) {
-      core.setOutput(
-        "status",
-        "Skipped deploy to heroku app from branch " + heroku.branch
-      );
-    } else {
-      core.setFailed(err.toString());
-    }
+  } catch (error) {
+    core.setFailed(error.message);
   }
 })();
