@@ -1,6 +1,6 @@
 const p = require("phin");
 const core = require("@actions/core");
-const { spawn } = require("child_process");
+const { spawn, execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
@@ -11,8 +11,7 @@ const createCatFile = ({ email, api_key }) => `cat >~/.netrc <<EOF
 machine api.heroku.com
     login ${email}
     password ${api_key}
-machine git.heroku.com
-    login ${email}
+machine git.heroku.co    login ${email}
     password ${api_key}
 EOF`;
 
