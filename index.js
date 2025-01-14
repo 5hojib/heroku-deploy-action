@@ -7,6 +7,20 @@ const path = require("path");
 // Support Functions
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Check if Heroku is installed
+const isHerokuInstalled = () => {
+  try {
+    execSync("heroku --version", { stdio: "ignore" });
+    console.log("Heroku is already installed.");
+  } catch (error) {
+    console.log("Heroku is not installed. Installing...");
+    execSync("curl https://cli-assets.heroku.com/install.sh | sh", {
+      stdio: "inherit",
+    });
+    console.log("Heroku installation completed.");
+  }
+};
+
 const createCatFile = ({ email, api_key }) => `cat >~/.netrc <<EOF
 machine api.heroku.com
     login ${email}
@@ -201,6 +215,9 @@ if (heroku.dockerBuildArgs) {
 (async () => {
   // Program logic
   try {
+    // Check if Heroku is installed
+    isHerokuInstalled();
+
     // Just Login
     if (heroku.justlogin) {
       execSync(createCatFile(heroku));
