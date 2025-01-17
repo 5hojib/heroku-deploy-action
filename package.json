@@ -1,0 +1,31 @@
+{
+  "name": "heroku-deploy-action",
+  "version": "2",
+  "description": "A simple github action that dynamically deploys an app to heroku",
+  "main": "index.js",
+  "scripts": {
+    "test": "node scripts/test",
+    "test-action": "node scripts/test-action",
+    "setup": "node scripts/setup",
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/5hojib/heroku-deploy-action.git"
+  },
+  "keywords": [
+    "heroku",
+    "github",
+    "github-actions"
+  ],
+  "author": "5hojib",
+  "bugs": {
+    "url": "https://github.com/5hojib/heroku-deploy-action/issues"
+  },
+  "homepage": "https://github.com/5hojib/heroku-deploy-action#readme",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "phin": "^3.7.1"
+  }
+}

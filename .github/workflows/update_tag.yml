@@ -1,0 +1,22 @@
+name: Update v2 Tag
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  update-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Update v2 tag
+        run: |
+          git fetch --tags
+          git tag -f v2 $GITHUB_SHA
+          git push origin v2 --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
