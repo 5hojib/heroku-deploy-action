@@ -1,4 +1,3 @@
-const p = require("phin");
 const core = require("@actions/core");
 const { spawn, execSync } = require("child_process");
 const fs = require("fs");
@@ -82,17 +81,10 @@ const runCommand = (command, options = {}) => {
 };
 
 const deploy = async ({ app_name, branch, usedocker, dockerHerokuProcessType, dockerBuildArgs, appdir }) => {
-  if (usedocker) {
-    await runCommand(`heroku stack:set container --app ${app_name}`);
-    await runCommand(
-      `heroku container:push ${dockerHerokuProcessType} --app ${app_name} ${dockerBuildArgs}`,
-      appdir ? { cwd: appdir } : null
-    );
-    await runCommand(
-      `heroku container:release ${dockerHerokuProcessType} --app ${app_name}`,
-      appdir ? { cwd: appdir } : null
-    );
-  } else {
+  const herokuYmlPath = path.join(appdir || ".", "heroku.yml");
+
+  if (fs.existsSync(herokuYmlPath)) {
+    console.log("heroku.yml detected. Using Git push for deployment.");
     let remote_branch = execSync(
       "git remote show heroku | grep 'HEAD' | cut -d':' -f2 | sed -e 's/^ *//g' -e 's/ *$//g'"
     )
@@ -104,6 +96,7 @@ const deploy = async ({ app_name, branch, usedocker, dockerHerokuProcessType, do
       await runCommand("heroku repo:reset -a " + app_name);
     }
 
+    await runCommand(`heroku stack:set container --app ${app_name}`);
     if (appdir === "") {
       await runCommand(`git push heroku ${branch}:refs/heads/main --force`, {
         maxBuffer: 104857600,
@@ -114,6 +107,19 @@ const deploy = async ({ app_name, branch, usedocker, dockerHerokuProcessType, do
         { maxBuffer: 104857600 }
       );
     }
+  } else if (usedocker) {
+    console.log("No heroku.yml detected. Using Docker for deployment.");
+    await runCommand(`heroku stack:set container --app ${app_name}`);
+    await runCommand(
+      `heroku container:push ${dockerHerokuProcessType} --app ${app_name} ${dockerBuildArgs}`,
+      appdir ? { cwd: appdir } : null
+    );
+    await runCommand(
+      `heroku container:release ${dockerHerokuProcessType} --app ${app_name}`,
+      appdir ? { cwd: appdir } : null
+    );
+  } else {
+    throw new Error("Neither heroku.yml nor Docker configuration found for deployment.");
   }
   core.setOutput('output', 'Deployment complete.');
 };
